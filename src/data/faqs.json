@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "question": "Do I need to carry ID at all times?",
+    "answer": "Yes, in Germany you are legally required to carry valid identification. This can be your passport, national ID card, or residence permit. Police can ask to see it at any time.",
+    "category": "Police",
+    "keywords": ["ID", "identification", "police", "passport", "residence permit"]
+  },
+  {
+    "id": 2,
+    "question": "Can my landlord enter my apartment without permission?",
+    "answer": "No, your landlord cannot enter your apartment without your permission except in emergencies. They must give 24-48 hours notice for inspections and you have the right to refuse non-emergency visits.",
+    "category": "Housing",
+    "keywords": ["landlord", "apartment", "privacy", "inspection", "tenant rights"]
+  },
+  {
+    "id": 3,
+    "question": "What should I do if I'm stopped by police?",
+    "answer": "Stay calm, be polite, and show your ID when asked. You have the right to know why you're being stopped. You don't have to answer questions beyond providing your identity without a lawyer present.",
+    "category": "Police",
+    "keywords": ["police", "stopped", "rights", "lawyer", "questioning"]
+  },
+  {
+    "id": 4,
+    "question": "How do I register my address (Anmeldung)?",
+    "answer": "You must register your address within 14 days of moving. Go to your local Bürgeramt with your ID, rental contract, and a completed Anmeldung form. Your landlord must also sign the form.",
+    "category": "Visa",
+    "keywords": ["Anmeldung", "registration", "address", "Bürgeramt", "moving"]
+  },
+  {
+    "id": 5,
+    "question": "Can I work while studying in Germany?",
+    "answer": "EU students can work without restrictions. Non-EU students can work 120 full days or 240 half days per year without a work permit. Check your visa conditions for specific restrictions.",
+    "category": "Work",
+    "keywords": ["student", "work", "visa", "permit", "120 days", "employment"]
+  },
+  {
+    "id": 6,
+    "question": "How do I get health insurance in Germany?",
+    "answer": "Health insurance is mandatory. Students under 30 can get discounted public insurance (~110€/month). Over 30 or with higher income, you may need private insurance. EU students can use EHIC temporarily.",
+    "category": "Health",
+    "keywords": ["health insurance", "mandatory", "student", "public", "private", "EHIC"]
+  }
+]
