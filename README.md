@@ -1,73 +1,64 @@
-# Welcome to your Lovable project
+# 🧑‍⚖️ Civic Guidebook – Legal Rights for Students in Germany
 
-## Project info
+A modern, mobile-first web app that simplifies and explains legal rights in Germany for international students and immigrants. Built with a clean and minimal design, this guidebook provides actionable information in **plain language** across key topics like housing, work, police interaction, visas, and healthcare.
 
-**URL**: https://lovable.dev/projects/0d3f4e3b-f50a-4049-81c6-59d7c271284c
+---
 
-## How can I edit this code?
+## ✨ Features
 
-There are several ways of editing your application.
+- ✅ **Searchable FAQs** – Find clear answers to common legal questions
+- 📚 **Topics Pages** – Browse key areas like tenancy rights, work contracts, and ID checks
+- 🧾 **Visual Explainers** – Simplified cards explaining complex rules (e.g., “What to do if the police stop you”)
+- 🌐 **Multilingual Support** – English and German toggle with i18next
+- 🔗 **Local Resources** – Contact points like Mieterbund, legal aid offices, and Studierendenwerk
+- 💻 **Mobile-friendly design** – Tailored for phones and small devices
+- 🧠 **Built for clarity** – No legal jargon, just helpful, human-friendly content
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/0d3f4e3b-f50a-4049-81c6-59d7c271284c) and start prompting.
+## 🛠 Tech Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+| Layer         | Tech                             |
+|---------------|----------------------------------|
+| Frontend      | [React](https://reactjs.org/) + [Vite](https://vitejs.dev/) |
+| Styling       | [TailwindCSS](https://tailwindcss.com/) |
+| Language i18n | [i18next](https://www.i18next.com/) |
+| Type System   | TypeScript                       |
+| Search        | Fuse.js (planned)                |
+| Hosting       | Vercel / Netlify (recommended)   |
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 📂 Folder Structure
+civic-guidebook/
+├── public/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   ├── data/
+│   └── i18n.ts
+├── tailwind.config.ts
+├── vite.config.ts
+└── README.md
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## 🚀 Getting Started
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### 📦 Install dependencies
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+bash
+bun install
+# or
+npm install
 
-# Step 3: Install the necessary dependencies.
-npm i
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+🧪 Run the development server
+bun run dev
+# or
 npm run dev
-```
 
-**Edit a file directly in GitHub**
+🌐 Live Demo
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+🔗 Coming Soon
 
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/0d3f4e3b-f50a-4049-81c6-59d7c271284c) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
