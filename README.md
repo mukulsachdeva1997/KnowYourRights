@@ -87,7 +87,7 @@ npm run dev
 
 🌐 Live Demo
 
-🔗 Coming Soon
+🔗 (https://mukulsachdeva1997.github.io/KnowYourRights/)
 
 📜 Legal Disclaimer
 
