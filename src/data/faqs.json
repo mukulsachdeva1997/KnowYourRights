@@ -4,41 +4,64 @@
     "question": "Do I need to carry ID at all times?",
     "answer": "Yes, in Germany you are legally required to carry valid identification. This can be your passport, national ID card, or residence permit. Police can ask to see it at any time.",
     "category": "Police",
-    "keywords": ["ID", "identification", "police", "passport", "residence permit"]
+    "keywords": ["ID", "identification", "police", "passport", "residence permit"],
+    "source": "https://www.gesetze-im-internet.de/aufenthg_2004/__48.html"
   },
   {
     "id": 2,
     "question": "Can my landlord enter my apartment without permission?",
     "answer": "No, your landlord cannot enter your apartment without your permission except in emergencies. They must give 24-48 hours notice for inspections and you have the right to refuse non-emergency visits.",
     "category": "Housing",
-    "keywords": ["landlord", "apartment", "privacy", "inspection", "tenant rights"]
+    "keywords": ["landlord", "apartment", "privacy", "inspection", "tenant rights"],
+    "source": "https://www.mietrecht.org/mietvertrag/betretungsrecht-wohnung-vermieter/"
   },
   {
     "id": 3,
     "question": "What should I do if I'm stopped by police?",
     "answer": "Stay calm, be polite, and show your ID when asked. You have the right to know why you're being stopped. You don't have to answer questions beyond providing your identity without a lawyer present.",
     "category": "Police",
-    "keywords": ["police", "stopped", "rights", "lawyer", "questioning"]
+    "keywords": ["police", "stopped", "rights", "lawyer", "questioning"],
+    "source": "https://www.bmj.de/DE/Themen/FokusThemen/Polizeikontrolle/polizeikontrolle_node.html"
   },
   {
-    "id": 4,
-    "question": "How do I register my address (Anmeldung)?",
-    "answer": "You must register your address within 14 days of moving. Go to your local Bürgeramt with your ID, rental contract, and a completed Anmeldung form. Your landlord must also sign the form.",
-    "category": "Visa",
-    "keywords": ["Anmeldung", "registration", "address", "Bürgeramt", "moving"]
-  },
+  "id": 4,
+  "question": "How do I register my address (Anmeldung)?",
+  "answer": "If you move to a new home in Germany, you must register your new address (Anmeldung) within 14 days at your local Bürgeramt (citizen’s office). To do this, book an appointment and bring the following documents: (1) your passport or national ID card, (2) a completed registration form (Anmeldeformular), and (3) a written confirmation from your landlord (Wohnungsgeberbestätigung). \n\nThe exact process and form may vary depending on your city. Make sure to check your local Bürgeramt’s website for instructions and online booking. Registration is free, and you will receive a Meldebescheinigung (registration certificate), which is often needed for opening a bank account or applying for a residence permit.",
+  "category": "Visa",
+  "keywords": ["Anmeldung", "registration", "address", "Bürgeramt", "moving"],
+  "source": "https://www.service-bw.de/"
+},
   {
     "id": 5,
     "question": "Can I work while studying in Germany?",
     "answer": "EU students can work without restrictions. Non-EU students can work 120 full days or 240 half days per year without a work permit. Check your visa conditions for specific restrictions.",
     "category": "Work",
-    "keywords": ["student", "work", "visa", "permit", "120 days", "employment"]
+    "keywords": ["student", "work", "visa", "permit", "120 days", "employment"],
+    "source": "https://www.make-it-in-germany.com/en"
   },
   {
     "id": 6,
     "question": "How do I get health insurance in Germany?",
     "answer": "Health insurance is mandatory. Students under 30 can get discounted public insurance (~110€/month). Over 30 or with higher income, you may need private insurance. EU students can use EHIC temporarily.",
     "category": "Health",
-    "keywords": ["health insurance", "mandatory", "student", "public", "private", "EHIC"]
+    "keywords": ["health insurance", "mandatory", "student", "public", "private", "EHIC"],
+    "source": "https://www.studying-in-germany.org/insurances-germany/health-insurance/international-students/"
+  },
+   {
+    "id": 7,
+    "question": "How long can a landlord keep my deposit in Germany?",
+    "answer": "A landlord can retain your deposit for up to 6 months after the lease ends if utility or damage bills are pending.",
+    "category": "Housing",
+    "keywords": ["deposit", "landlord", "return", "housing"],
+    "source": "https://dejure.org/gesetze/BGB/551.html"
+  },
+  
+  {
+    "id": 8,
+    "question": "What is the notice period for quitting a job?",
+    "answer": "Standard notice is 4 weeks to the 15th or end of a month, unless otherwise stated in your contract.",
+    "category": "Work",
+    "keywords": ["notice", "resignation", "termination"],
+    "source": "https://www.gesetze-im-internet.de/bgb/__622.html"
   }
 ]

@@ -1,112 +1,188 @@
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Icon } from "@/lib/iconMap";
+import Footer from "@/components/Footer";
+import SaveForLaterButton from "@/components/SaveForLaterButton";
 
 const Topics = () => {
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category");
+  const navigate = useNavigate();
 
   const topics = [
     {
       id: 1,
       title: "When Police Stop You",
       category: "Police",
-      icon: "👮",
+      icon: "shield",
       summary: "Know your rights during police encounters",
-      points: [
-        "You must show ID when asked",
-        "You don't have to answer questions without a lawyer",
-        "Police need reasonable suspicion to search you",
-        "You can remain silent beyond identifying yourself"
-      ]
+      stories: [
+        "Police ask for ID while you're walking home",
+        "You're stopped and questioned at the station",
+        "You're searched without a clear reason",
+        "You're recording an incident and get questioned",
+      ],
+      explainerTag: "stop-and-search",
     },
     {
       id: 2,
       title: "Rental Contract Basics",
       category: "Housing",
-      icon: "🏠",
-      summary: "Understanding your tenant rights and obligations",
-      points: [
-        "Landlord cannot enter without 24-48h notice",
-        "Deposit (Kaution) cannot exceed 3 months rent",
-        "You have rights to minor modifications",
-        "Termination requires proper notice periods"
-      ]
+      icon: "door-open",
+      summary: "Understand your rights as a tenant in Germany",
+      stories: [
+        "Landlord enters without your permission",
+        "You’re being charged more than 3 months' deposit",
+        "You want to make small repairs but aren’t sure",
+        "You’re unsure how to terminate your lease",
+      ],
+      explainerTag: "rental-rights",
     },
     {
       id: 3,
       title: "Student Work Rights",
       category: "Work",
-      icon: "💼",
-      summary: "Employment rules for international students",
-      points: [
-        "EU students: No work restrictions",
-        "Non-EU: 120 full days or 240 half days per year",
-        "Working more requires employment office approval",
-        "University jobs (HiWi) don't count toward limit"
-      ]
+      icon: "work",
+      summary: "Working while studying? Know your legal limits",
+      stories: [
+        "You exceed 120 full days of work",
+        "Your contract includes unpaid trial hours",
+        "You’re offered a HiWi job — does it count?",
+        "You’re not paid on time or at all",
+      ],
+      explainerTag: "student-work",
     },
     {
       id: 4,
       title: "Health Insurance Guide",
       category: "Health",
-      icon: "🏥",
-      summary: "Mandatory health coverage in Germany",
-      points: [
-        "Health insurance is legally required",
-        "Students under 30: ~110€/month public insurance",
-        "Over 30: May need private insurance",
-        "EU students can use EHIC card temporarily"
-      ]
-    }
+      icon: "stethoscope",
+      summary: "Get covered and stay protected under German law",
+      stories: [
+        "You turn 30 and need private coverage",
+        "You're unsure how to register for public insurance",
+        "You visit the doctor but aren’t sure what’s covered",
+        "You’re using EHIC as an EU student",
+      ],
+      explainerTag: "health-coverage",
+    },
+    {
+      id: 5,
+      title: "Registering Your Address",
+      category: "Visa & Immigration",
+      icon: "calendar",
+      summary: "How to register your address (Anmeldung) after moving",
+      stories: [
+        "You're new to Germany and need to register",
+        "You just moved apartments",
+        "You don’t have a landlord confirmation yet",
+        "You missed the 14-day deadline",
+      ],
+      explainerTag: "register-address",
+    },
+    {
+      id: 6,
+      title: "Extending Your Residence Permit",
+      category: "Visa & Immigration",
+      icon: "id-card",
+      summary: "Stay legally in Germany by renewing your permit",
+      stories: [
+        "Your residence permit is about to expire",
+        "You’re unsure which documents are required",
+        "You haven’t received an appointment yet",
+        "You need a Fiktionsbescheinigung",
+      ],
+      explainerTag: "residence-permit",
+    },
+    {
+      id: 7,
+      title: "Changing Universities in Germany",
+      category: "Education",
+      icon: "book",
+      summary: "Switching schools and updating your student status",
+      stories: [
+        "You want to transfer to a different university",
+        "You're confused about Exmatrikulation",
+        "You're worried about how it affects your visa",
+        "You want to transfer course credits",
+      ],
+      explainerTag: "changing-university",
+    },
   ];
 
-  const filteredTopics = category 
-    ? topics.filter(topic => topic.category.toLowerCase() === category.toLowerCase())
+  const filteredTopics = category
+    ? topics.filter((topic) => topic.category.toLowerCase() === category.toLowerCase())
     : topics;
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      
+
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            {category ? `${category.charAt(0).toUpperCase() + category.slice(1)} Topics` : "All Topics"}
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Simple explanations of your legal rights and obligations
-          </p>
+        <div className="mb-8 flex items-center justify-between gap-4">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-bold text-foreground">
+              {category
+                ? `${category.charAt(0).toUpperCase() + category.slice(1)} Topics`
+                : "All Topics"}
+            </h1>
+            <p className="text-lg text-muted-foreground mt-1">
+              Find story-based entry points to your legal rights in Germany
+            </p>
+          </div>
+          <div className="hidden sm:block">
+            <SaveForLaterButton />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {filteredTopics.map((topic) => (
-            <Card key={topic.id} className="p-6 rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-200">
+            <Card
+              key={topic.id}
+              className="p-6 rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-200"
+            >
               <div className="flex items-start space-x-4 mb-4">
-                <div className="text-2xl">{topic.icon}</div>
+                <Icon name={topic.icon} className="h-6 w-6 mt-0.5" label={topic.title} />
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
-                    <h3 className="text-xl font-semibold text-foreground">{topic.title}</h3>
+                    <h3 className="text-xl font-semibold text-foreground">
+                      {topic.title}
+                    </h3>
                     <Badge variant="secondary">{topic.category}</Badge>
                   </div>
                   <p className="text-muted-foreground mb-4">{topic.summary}</p>
                 </div>
               </div>
-              
+
               <div className="space-y-2 mb-6">
-                {topic.points.map((point, index) => (
-                  <div key={index} className="flex items-start space-x-2">
+                {topic.stories.map((story, index) => (
+                  <div
+                    key={index}
+                    className="flex items-start space-x-2 text-sm text-foreground"
+                  >
                     <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                    <span className="text-sm text-foreground">{point}</span>
+                    <span>{story}</span>
                   </div>
                 ))}
               </div>
-              
-              <Button variant="outline" className="w-full rounded-full">
-                Read Full Guide
-              </Button>
+
+              <div className="grid grid-cols-1 gap-3 mt-2">
+                <Button
+                  variant="outline"
+                  className="rounded-full text-sm"
+                  onClick={() =>
+                    navigate(
+                      `/explainers?category=${topic.category}&topic=${topic.explainerTag}`
+                    )
+                  }
+                >
+                  View Your Rights
+                </Button>
+                
+              </div>
             </Card>
           ))}
         </div>
@@ -119,6 +195,7 @@ const Topics = () => {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

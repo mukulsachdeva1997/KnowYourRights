@@ -7,9 +7,10 @@ interface FAQCardProps {
   question: string;
   answer: string;
   category: string;
+  source?: string;
 }
 
-const FAQCard = ({ question, answer, category }: FAQCardProps) => {
+const FAQCard = ({ question, answer, category, source }: FAQCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const getCategoryColor = (category: string) => {
@@ -39,10 +40,22 @@ const FAQCard = ({ question, answer, category }: FAQCardProps) => {
           <ChevronDown className="w-5 h-5 text-muted-foreground flex-shrink-0" />
         )}
       </div>
-      
+
       {isOpen && (
-        <div className="mt-4 pt-4 border-t border-border">
+        <div className="mt-4 pt-4 border-t border-border space-y-2">
           <p className="text-muted-foreground leading-relaxed">{answer}</p>
+          {source && (
+            <div>
+              <a
+                href={source}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-blue-600 hover:underline"
+              >
+                View Related Law ↗
+              </a>
+            </div>
+          )}
         </div>
       )}
     </Card>

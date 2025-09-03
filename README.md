@@ -1,45 +1,72 @@
 # 🧑‍⚖️ Civic Guidebook – Legal Rights for Students in Germany
 
-A modern, mobile-first web app that simplifies and explains legal rights in Germany for international students and immigrants. Built with a clean and minimal design, this guidebook provides actionable information in **plain language** across key topics like housing, work, police interaction, visas, and healthcare.
+A modern, mobile-first web app that explains everyday legal rights in Germany for international students and immigrants. Plain language, practical steps, and trusted links.
 
 ---
 
 ## ✨ Features
 
-- ✅ **Searchable FAQs** – Find clear answers to common legal questions
-- 📚 **Topics Pages** – Browse key areas like tenancy rights, work contracts, and ID checks
-- 🧾 **Visual Explainers** – Simplified cards explaining complex rules (e.g., “What to do if the police stop you”)
-- 🌐 **Multilingual Support** – English and German toggle with i18next
-- 🔗 **Local Resources** – Contact points like Mieterbund, legal aid offices, and Studierendenwerk
-- 💻 **Mobile-friendly design** – Tailored for phones and small devices
-- 🧠 **Built for clarity** – No legal jargon, just helpful, human-friendly content
+- ✅ **Searchable FAQs** – quick answers with sources (law links where available)
+- 📚 **Topics** – curated entry points (Housing, Work, Police, Visas, Health, Education)
+- 🧾 **Visual Explainers** – step-by-step guides with **Legal** and **Practical Steps** tabs
+- 🧭 **Local Resources** – emergency banner (110 / 112) + official directories (Mieterbund, BRAV lawyer register, Studierendenwerk, BAMF)
+- 💬 **Ask a Question** – lightweight form that opens your email client (no backend)
+- 📨 **Suggest a Topic / Contact** – prefilled mailto helpers for quick feedback
+- 🪪 **Report Issue** – one-click button emails the current page URL (+ selected text)
+- 🧩 **Icon system** – Lucide + a small `<Icon />` wrapper with a safe fallback
+- ♿ **Accessible by default** – focus states, semantic markup, labeled icons
+- 📱 **Responsive UI** – built with Tailwind + shadcn/ui components
+
+
 
 ---
 
 ## 🛠 Tech Stack
 
-| Layer         | Tech                             |
-|---------------|----------------------------------|
-| Frontend      | [React](https://reactjs.org/) + [Vite](https://vitejs.dev/) |
-| Styling       | [TailwindCSS](https://tailwindcss.com/) |
-| Language i18n | [i18next](https://www.i18next.com/) |
-| Type System   | TypeScript                       |
-| Search        | Fuse.js (planned)                |
-| Hosting       | Vercel / Netlify (recommended)   |
+| Layer         | Tech                                                                 |
+|--------------|----------------------------------------------------------------------|
+| App          | React + Vite + TypeScript + React Router                             |
+| UI           | Tailwind CSS + shadcn/ui + Lucide Icons                               |
+| State/Utils  | Small utilities (`src/lib/mailto.ts`, `src/lib/iconMap.tsx`)         |
+| Deploy       | Vercel / Netlify / GitHub Pages (static SPA)                          |
 
 ---
 
 ## 📂 Folder Structure
 civic-guidebook/
-├── public/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── data/
-│   └── i18n.ts
-├── tailwind.config.ts
-├── vite.config.ts
-└── README.md
+├─ public/
+│  ├─ favicon.svg
+│  ├─ og-image.png
+│  └─ (optional) apple-touch-icon.png, safari-pinned-tab.svg
+├─ src/
+│  ├─ components/
+│  │  ├─ Footer.tsx
+│  │  ├─ Navbar.tsx
+│  │  ├─ CategoryCard.tsx
+│  │  ├─ FAQCard.tsx
+│  │  ├─ ExplainerSlidePanel.tsx
+│  │  ├─ AskQuestionForm.tsx
+│  │  └─ ReportIssueButton.tsx
+│  ├─ components/ui/ (shadcn/ui primitives)
+│  ├─ data/
+│  │  ├─ explainerSteps.ts
+│  │  └─ faqs.json
+│  ├─ lib/
+│  │  ├─ iconMap.tsx
+│  │  └─ mailto.ts
+│  ├─ pages/
+│  │  ├─ Index.tsx
+│  │  ├─ Topics.tsx
+│  │  ├─ Explainers.tsx
+│  │  ├─ Resources.tsx
+│  │  └─ FAQ.tsx
+│  ├─ App.tsx
+│  └─ main.tsx
+├─ index.html
+├─ tailwind.config.ts
+├─ eslint.config.js
+├─ package.json / bun.lockb
+└─ README.md
 
 ---
 
@@ -62,3 +89,11 @@ npm run dev
 
 🔗 Coming Soon
 
+📜 Legal Disclaimer
+
+This project provides general information and does not constitute legal advice. For your specific situation, consult a qualified professional.
+
+🙌 Credits
+	•	Icons: lucide.dev
+	•	UI primitives: shadcn/ui
+	•	Built with ❤️ using React, Vite, and Tailwind

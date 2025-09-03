@@ -9,6 +9,7 @@ import FAQ from "./pages/FAQ";
 import Explainers from "./pages/Explainers";
 import Resources from "./pages/Resources";
 import NotFound from "./pages/NotFound";
+import Saved from "./pages/Saved"; // if you added the Saved page
 
 const queryClient = new QueryClient();
 
@@ -17,13 +18,15 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      {/* basename uses Vite's base ("/KnowYourRights/") in production */}
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/topics" element={<Topics />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/explainers" element={<Explainers />} />
           <Route path="/resources" element={<Resources />} />
+          <Route path="/saved" element={<Saved />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
