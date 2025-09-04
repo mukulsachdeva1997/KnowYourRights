@@ -95,18 +95,16 @@ const Explainers = () => {
       <Navbar />
 
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-12 flex items-center justify-between gap-4">
-          <div className="text-left">
+        <div className="mb-12">
+          <div className="flex items-center justify-between gap-3 sm:gap-4">
             <h1 className="text-3xl md:text-4xl font-bold text-foreground">
               Step-by-Step Explainers
             </h1>
-            <p className="text-lg text-muted-foreground mt-1">
-              Simple, visual guides to navigate complex legal situations
-            </p>
+            <SaveForLaterButton className="shrink-0" />
           </div>
-          <div className="hidden sm:block">
-            <SaveForLaterButton />
-          </div>
+          <p className="text-lg text-muted-foreground mt-1">
+            Simple, visual guides to navigate complex legal situations
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

@@ -7,9 +7,35 @@ import { Icon } from "@/lib/iconMap";
 import Footer from "@/components/Footer";
 import SaveForLaterButton from "@/components/SaveForLaterButton";
 
+/** Normalize category strings (both from URL and data) to stable keys */
+function normalizeCategory(input: string) {
+  const s = (input || "").toLowerCase();
+  if (s.includes("visa") || s.includes("immig")) return "visa & immigration";
+  if (s.includes("work") || s.includes("employment")) return "work";
+  if (s.includes("police")) return "police";
+  if (s.includes("health") || s.includes("insurance")) return "health";
+  if (s.includes("education") || s.includes("univer")) return "education";
+  if (s.includes("housing") || s.includes("rental") || s.includes("tenant")) return "housing";
+  return s.trim();
+}
+
+/** Pretty label for the normalized category */
+function displayCategoryLabel(norm: string | null) {
+  switch (norm) {
+    case "visa & immigration": return "Visa & Immigration";
+    case "work": return "Work";
+    case "police": return "Police";
+    case "health": return "Health";
+    case "education": return "Education";
+    case "housing": return "Housing";
+    default: return null;
+  }
+}
+
 const Topics = () => {
   const [searchParams] = useSearchParams();
-  const category = searchParams.get("category");
+  const categoryParam = searchParams.get("category");
+  const normalizedParam = categoryParam ? normalizeCategory(categoryParam) : null;
   const navigate = useNavigate();
 
   const topics = [
@@ -45,7 +71,7 @@ const Topics = () => {
       id: 3,
       title: "Student Work Rights",
       category: "Work",
-      icon: "work",
+      icon: "work", // if not aliased, switch to "briefcase"
       summary: "Working while studying? Know your legal limits",
       stories: [
         "You exceed 120 full days of work",
@@ -113,29 +139,29 @@ const Topics = () => {
     },
   ];
 
-  const filteredTopics = category
-    ? topics.filter((topic) => topic.category.toLowerCase() === category.toLowerCase())
+  // Apply normalized filtering
+  const filteredTopics = normalizedParam
+    ? topics.filter((t) => normalizeCategory(t.category) === normalizedParam)
     : topics;
+
+  const headingCategory = displayCategoryLabel(normalizedParam);
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
 
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-8 flex items-center justify-between gap-4">
-          <div>
+        {/* Header with Save icon beside the title (visible on mobile) */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between gap-3 sm:gap-4">
             <h1 className="text-3xl md:text-4xl font-bold text-foreground">
-              {category
-                ? `${category.charAt(0).toUpperCase() + category.slice(1)} Topics`
-                : "All Topics"}
+              {headingCategory ? `${headingCategory} Topics` : "All Topics"}
             </h1>
-            <p className="text-lg text-muted-foreground mt-1">
-              Find story-based entry points to your legal rights in Germany
-            </p>
+            <SaveForLaterButton className="shrink-0" />
           </div>
-          <div className="hidden sm:block">
-            <SaveForLaterButton />
-          </div>
+          <p className="text-lg text-muted-foreground mt-1">
+            Find story-based entry points to your legal rights in Germany
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -174,14 +200,11 @@ const Topics = () => {
                   variant="outline"
                   className="rounded-full text-sm"
                   onClick={() =>
-                    navigate(
-                      `/explainers?category=${topic.category}&topic=${topic.explainerTag}`
-                    )
+                    navigate(`/explainers?category=${topic.category}&topic=${topic.explainerTag}`)
                   }
                 >
                   View Your Rights
                 </Button>
-                
               </div>
             </Card>
           ))}
@@ -195,6 +218,7 @@ const Topics = () => {
           </div>
         )}
       </div>
+
       <Footer />
     </div>
   );

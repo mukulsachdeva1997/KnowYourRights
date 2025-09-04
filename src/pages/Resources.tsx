@@ -38,7 +38,7 @@ const Resources = () => {
       name: "Studierendenwerk",
       category: "Student Support",
       type: "Advisory",
-      icon: "file-text",
+      icon: "info",
       description: "Support services for university students including legal advice",
       contact: "Varies by location",
       website:
@@ -50,7 +50,7 @@ const Resources = () => {
       name: "Ausländerbehörde",
       category: "Immigration",
       type: "Government",
-      icon: "map-pin",
+      icon: "building",
       description: "Immigration office for visa, residence permit applications",
       contact: "Your local office",
       website: "https://bamf-navi.bamf.de/en/Themen/Behoerden/",
@@ -72,7 +72,7 @@ const Resources = () => {
       name: "Rechtsanwaltskammer",
       category: "Legal",
       type: "Directory",
-      icon: "file-text",
+      icon: "scales",
       description: "Find qualified lawyers and legal representation",
       contact: "Search the official register",
       website: "https://bravsearch.bea-brak.de/bravsearch/index.brak",
@@ -97,8 +97,7 @@ const Resources = () => {
       icon: "globe",
       description: "German language and integration courses for immigrants",
       contact: "Local BAMF office / providers",
-      website:
-        "https://bamf-navi.bamf.de/en/Themen/Integrationskurse/",
+      website: "https://bamf-navi.bamf.de/en/Themen/Integrationskurse/",
       location: "Available nationwide",
     },
     {
@@ -106,7 +105,7 @@ const Resources = () => {
       name: "Workers Union (DGB)",
       category: "Work",
       type: "Legal Help",
-      icon: "file-text",
+      icon: "phone",
       description: "Support for workplace rights and employment issues",
       contact: "Regional offices / advice centres",
       website: "https://www.dgbrechtsschutz.de/",
@@ -131,18 +130,17 @@ const Resources = () => {
       <Navbar />
 
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-12 flex items-center justify-between gap-4">
-          <div>
+        {/* Header with Save icon beside the title (same pattern as Topics) */}
+        <div className="mb-12">
+          <div className="flex items-center justify-between gap-3 sm:gap-4">
             <h1 className="text-3xl md:text-4xl font-bold text-foreground">
               Local Resources & Contacts
             </h1>
-            <p className="text-lg text-muted-foreground mt-1">
-              Find organizations, hotlines, and services that can help with legal issues
-            </p>
+            <SaveForLaterButton className="shrink-0" />
           </div>
-          <div className="hidden sm:block">
-            <SaveForLaterButton />
-          </div>
+          <p className="text-lg text-muted-foreground mt-1">
+            Find organizations, hotlines, and services that can help with legal issues
+          </p>
         </div>
 
         {/* Emergency Contacts Banner */}
@@ -199,7 +197,7 @@ const Resources = () => {
                   <span>{resource.contact}</span>
                 </div>
                 <div className="flex items-center space-x-2 text-muted-foreground">
-                  <Icon name="map-pin" className="w-4 h-4" />
+                  <Icon name="pin" className="w-4 h-4" />
                   <span>{resource.location}</span>
                 </div>
               </div>
@@ -244,21 +242,21 @@ const Resources = () => {
               📧 Contact Us
             </Button>
             <Button
-            variant="outline"
-            className="rounded-full"
-            onClick={() =>
-              mailto({
-                subject: "Resource suggestion",
-                body:
-                  "Name of organization:\n" +
-                  "City/Region:\n" +
-                  "Website (if any):\n" +
-                  "Why it helps students/immigrants:\n",
-              })
-            }
-          >
-            🤝 Suggest a Resource
-          </Button>
+              variant="outline"
+              className="rounded-full"
+              onClick={() =>
+                mailto({
+                  subject: "Resource suggestion",
+                  body:
+                    "Name of organization:\n" +
+                    "City/Region:\n" +
+                    "Website (if any):\n" +
+                    "Why it helps students/immigrants:\n",
+                })
+              }
+            >
+              🤝 Suggest a Resource
+            </Button>
           </div>
         </div>
       </div>

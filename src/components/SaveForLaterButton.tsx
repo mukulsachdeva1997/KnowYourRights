@@ -1,52 +1,88 @@
+// src/components/SaveForLaterButton.tsx
 import { useEffect, useMemo, useState } from "react";
-import { useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Bookmark, BookmarkCheck } from "lucide-react";
 
-type Saved = { path: string; title: string; ts: number };
-const KEY = "kyr:saved";
-const LIMIT = 50; // cap to avoid unbounded growth
+type SavedItem = {
+  url: string;
+  title: string;
+  savedAt: number;
+};
 
-export default function SaveForLaterButton({ title }: { title?: string }) {
-  const loc = useLocation();
-  const path = loc.pathname + loc.search + loc.hash;
-  const [saved, setSaved] = useState<Saved[]>([]);
+const LS_KEY = "kyr:saved";
 
-  useEffect(() => {
-    try {
-      setSaved(JSON.parse(localStorage.getItem(KEY) || "[]"));
-    } catch {
-      setSaved([]);
-    }
+function readSaved(): SavedItem[] {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    return raw ? (JSON.parse(raw) as SavedItem[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeSaved(items: SavedItem[]) {
+  try {
+    localStorage.setItem(LS_KEY, JSON.stringify(items));
+  } catch {
+    /* no-op */
+  }
+}
+
+export default function SaveForLaterButton({
+  title,
+  className = "",
+}: {
+  /** Optional: override page title used when saving */
+  title?: string;
+  className?: string;
+}) {
+  const url = useMemo(() => {
+    // include search so /page?a=1 and /page?a=2 can be saved separately
+    const { pathname, search } = window.location;
+    return pathname + (search || "");
   }, []);
 
-  const isSaved = useMemo(() => saved.some((s) => s.path === path), [saved, path]);
+  const fallbackTitle = typeof document !== "undefined" ? document.title : url;
+  const displayTitle = title || fallbackTitle;
+
+  const [savedItems, setSavedItems] = useState<SavedItem[]>([]);
+  const saved = savedItems.some((i) => i.url === url);
+
+  useEffect(() => {
+    setSavedItems(readSaved());
+  }, []);
 
   function toggle() {
-    let next = [...saved];
-    if (isSaved) {
-      next = next.filter((s) => s.path !== path);
-    } else {
-      next.unshift({
-        path,
-        title: (title || document.title || "Saved page").slice(0, 120),
-        ts: Date.now(),
-      });
-      if (next.length > LIMIT) next = next.slice(0, LIMIT);
-    }
-    setSaved(next);
-    localStorage.setItem(KEY, JSON.stringify(next));
+    setSavedItems((prev) => {
+      if (prev.some((i) => i.url === url)) {
+        const next = prev.filter((i) => i.url !== url);
+        writeSaved(next);
+        return next;
+      }
+      const next: SavedItem[] = [
+        { url, title: displayTitle, savedAt: Date.now() },
+        ...prev.filter((i) => i.url !== url),
+      ];
+      writeSaved(next);
+      return next;
+    });
   }
 
   return (
     <Button
+      type="button"
       variant="outline"
-      className="rounded-xl"
+      size="icon"
       onClick={toggle}
-      title={isSaved ? "Remove bookmark" : "Save for later"}
+      aria-label={saved ? "Remove bookmark" : "Save bookmark"}
+      title={saved ? "Saved" : "Save"}
+      className={`rounded-full ${className}`}
     >
-      {isSaved ? <BookmarkCheck className="w-4 h-4 mr-2" /> : <Bookmark className="w-4 h-4 mr-2" />}
-      {isSaved ? "Saved" : "Save"}
+      {saved ? (
+        <BookmarkCheck className="h-4 w-4" aria-hidden="true" />
+      ) : (
+        <Bookmark className="h-4 w-4" aria-hidden="true" />
+      )}
     </Button>
   );
 }

@@ -34,7 +34,7 @@ const Index = () => {
       title: "Visa & Immigration",
       icon: "id-card", // was 📄
       description: "Residence permits, registration, and immigration law",
-      href: "/topics?category=visa",
+      href: "/topics?category=visa&immigration",
     },
     {
       title: "Health",

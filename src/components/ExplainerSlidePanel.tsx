@@ -13,7 +13,6 @@ import {
   TabsContent,
 } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import type { GuidanceStep } from "@/data/explainerSteps"; // <- unused
 import { Icon } from "@/lib/iconMap"; // <-- NEW
 
 interface Step {
@@ -55,9 +54,33 @@ const ExplainerSlidePanel = ({ open, onClose, explainer }: Props) => {
         {/* Scrollable content */}
         <div className="overflow-y-auto flex-1 px-1">
           <Tabs defaultValue="rights" value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="mb-4 w-full grid grid-cols-2">
-              <TabsTrigger value="rights">Legal Steps</TabsTrigger>
-              <TabsTrigger value="guidance">Practical Steps</TabsTrigger>
+            <TabsList className="mb-4 w-full grid grid-cols-2 p-1 rounded-xl bg-muted/60">
+              <TabsTrigger
+                value="rights"
+                className="
+                  h-9 rounded-lg text-sm font-medium transition-colors
+                  text-muted-foreground hover:text-foreground
+                  data-[state=active]:bg-primary
+                  data-[state=active]:text-primary-foreground
+                  data-[state=active]:shadow-sm
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50
+                "
+              >
+                Legal Steps
+              </TabsTrigger>
+              <TabsTrigger
+                value="guidance"
+                className="
+                  h-9 rounded-lg text-sm font-medium transition-colors
+                  text-muted-foreground hover:text-foreground
+                  data-[state=active]:bg-primary
+                  data-[state=active]:text-primary-foreground
+                  data-[state=active]:shadow-sm
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50
+                "
+              >
+                Practical Steps
+              </TabsTrigger>
             </TabsList>
 
             {/* Tab 1: Legal Rights */}
@@ -70,7 +93,7 @@ const ExplainerSlidePanel = ({ open, onClose, explainer }: Props) => {
                         name={step.icon}
                         className="h-5 w-5 mt-0.5 shrink-0"
                         label={step.title}
-                        />
+                      />
                     )}
                     <div>
                       <p className="font-semibold">{step.title}</p>
@@ -101,7 +124,7 @@ const ExplainerSlidePanel = ({ open, onClose, explainer }: Props) => {
                         name={item.icon}
                         className="h-5 w-5 mt-0.5 shrink-0"
                         label={item.title}
-                        />
+                      />
                     )}
                     <div>
                       <p className="font-semibold">{item.title}</p>

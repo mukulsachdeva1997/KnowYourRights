@@ -90,22 +90,23 @@ const FAQ = () => {
       <div className="container mx-auto px-4 py-8">
         {/* Header + search */}
         <div className="mb-12">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-foreground">
-                Frequently Asked Questions
-              </h1>
-              <p className="text-lg text-muted-foreground mt-1">
-                Quick answers to common legal questions
-              </p>
-            </div>
-            <div className="hidden sm:block">
-              <SaveForLaterButton />
-            </div>
+          <div className="flex items-center justify-between gap-3 sm:gap-4">
+            <h1 className="text-3xl md:text-4xl font-bold text-foreground">
+              Frequently Asked Questions
+            </h1>
+            <SaveForLaterButton className="shrink-0" />
           </div>
 
+          <p className="text-lg text-muted-foreground mt-1">
+            Quick answers to common legal questions
+          </p>
+
+          {/* Search stays inside the header, but spaced a bit below */}
           <div className="mt-6">
-            <SearchBar placeholder="Search FAQ..." onSearch={handleSearch} />
+            <SearchBar
+              placeholder="Search FAQ..."
+              onSearch={handleSearch}
+            />
           </div>
         </div>
 

@@ -35,7 +35,9 @@ import {
   RefreshCcw,
   BookOpen,
   Timer,
-  Send
+  Send,
+  Scale,
+  GraduationCap,
 } from "lucide-react";
 
 export const ICONS: Record<string, LucideIcon> = {
@@ -74,6 +76,8 @@ export const ICONS: Record<string, LucideIcon> = {
   repeat: RefreshCcw,
   book: BookOpen,
   timer: Timer,
+  scales: Scale,
+  "graduation-cap": GraduationCap,
 };
 
 type IconProps = {

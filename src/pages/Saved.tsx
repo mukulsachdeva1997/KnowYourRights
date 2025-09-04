@@ -9,8 +9,12 @@ import { ExternalLink, Trash2, Clock } from "lucide-react";
 type Saved = { path: string; title: string; ts: number };
 const KEY = "kyr:saved";
 
+/** Safe, human-friendly relative time with guards. */
 function timeAgo(ts: number) {
+  if (!Number.isFinite(ts)) return "just now";
   const diff = Date.now() - ts;
+  if (!Number.isFinite(diff) || diff < 0) return "just now";
+
   const s = Math.floor(diff / 1000);
   if (s < 60) return `${s}s ago`;
   const m = Math.floor(s / 60);
@@ -21,16 +25,64 @@ function timeAgo(ts: number) {
   return `${d}d ago`;
 }
 
+/** Load + normalize items in localStorage to {path, title, ts:number}. */
+function loadNormalized(): Saved[] {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as any[];
+
+    let changed = false;
+    const normalized: Saved[] = (Array.isArray(parsed) ? parsed : []).map((it) => {
+      // Support both { path } and legacy { url }
+      const path: string =
+        typeof it?.path === "string"
+          ? it.path
+          : typeof it?.url === "string"
+          ? it.url
+          : "/";
+
+      // Title fallback
+      const title: string =
+        typeof it?.title === "string" && it.title.trim()
+          ? it.title
+          : "Saved page";
+
+      // Support both { ts:number } and legacy { savedAt:number|string }
+      let ts: number | null = null;
+      if (typeof it?.ts === "number" && Number.isFinite(it.ts)) {
+        ts = it.ts;
+      } else if (typeof it?.savedAt === "number" && Number.isFinite(it.savedAt)) {
+        ts = it.savedAt;
+      } else if (typeof it?.savedAt === "string") {
+        const parsedDate = Date.parse(it.savedAt);
+        ts = Number.isFinite(parsedDate) ? parsedDate : null;
+      }
+
+      if (ts === null) {
+        ts = Date.now();
+        changed = true;
+      }
+
+      return { path, title, ts };
+    });
+
+    // If we fixed anything, write back in the new shape so it stays clean
+    if (changed) {
+      localStorage.setItem(KEY, JSON.stringify(normalized));
+    }
+
+    return normalized;
+  } catch {
+    return [];
+  }
+}
+
 export default function Saved() {
   const [items, setItems] = useState<Saved[]>([]);
 
   useEffect(() => {
-    try {
-      const data = JSON.parse(localStorage.getItem(KEY) || "[]") as Saved[];
-      setItems(Array.isArray(data) ? data : []);
-    } catch {
-      setItems([]);
-    }
+    setItems(loadNormalized());
   }, []);
 
   function remove(path: string) {
@@ -52,7 +104,9 @@ export default function Saved() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold">Saved pages</h1>
-            <p className="text-muted-foreground">Bookmarks stored locally on this device.</p>
+            <p className="text-muted-foreground">
+              Bookmarks stored locally on this device.
+            </p>
           </div>
           {items.length > 0 && (
             <Button variant="outline" className="rounded-full" onClick={clearAll}>
@@ -100,7 +154,12 @@ export default function Saved() {
                       Open
                     </Button>
                   </Link>
-                  <a href={it.path} target="_blank" rel="noopener noreferrer" className="flex-1">
+                  <a
+                    href={it.path}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1"
+                  >
                     <Button variant="outline" className="w-full rounded-full">
                       New tab
                       <ExternalLink className="w-4 h-4 ml-2" />

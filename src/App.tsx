@@ -9,7 +9,8 @@ import FAQ from "./pages/FAQ";
 import Explainers from "./pages/Explainers";
 import Resources from "./pages/Resources";
 import NotFound from "./pages/NotFound";
-import Saved from "./pages/Saved"; // if you added the Saved page
+import Saved from "./pages/Saved"; 
+import ScrollToTop from "@/components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
       <Sonner />
       {/* basename uses Vite's base ("/KnowYourRights/") in production */}
       <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/topics" element={<Topics />} />
