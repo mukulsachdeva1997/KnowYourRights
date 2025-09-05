@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { Card } from "@/components/ui/card";
@@ -24,66 +24,71 @@ interface Step {
 interface Explainer {
   id: number;
   title: string;
-  icon?: string;        // lucide key (from iconMap)
+  slug: string;          // <= added for URL matching
+  icon?: string;         // lucide key (from iconMap)
   category: string;
   steps: Step[];
   guidance?: Step[];
 }
 
-// Map your Topics `explainerTag` -> explainer title
-const TAG_TO_TITLE: Record<string, string> = {
-  "stop-and-search": "When the Police Stop You",
-  "rental-rights": "Rental Contract Basics",
-  "student-work": "Student Work Rights",
-  "health-coverage": "Health Insurance Guide",
-  "register-address": "Registering Your Address",
-  "residence-permit": "Extending Your Residence Permit",
-  "changing-university": "Changing Universities in Germany",
-};
+function slugify(input: string): string {
+  return input
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
 
-function slugify(s: string) {
-  return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+function getCategoryFromTitle(title: string): string {
+  const t = title.toLowerCase();
+  if (t.includes("police")) return "Police";
+  if (t.includes("insurance") || t.includes("health")) return "Health";
+  if (t.includes("university") || t.includes("universities")) return "Education";
+  if (t.includes("work") || t.includes("employment")) return "Work";
+  if (t.includes("housing") || t.includes("deposit") || t.includes("rental")) return "Housing";
+  if (t.includes("register") || t.includes("permit") || t.includes("residence")) return "Immigration";
+  return "General";
 }
 
 const Explainers = () => {
-  const explainers: Explainer[] = Object.entries(explainerSteps).map(
-    ([title, explainerData], index) => ({
-      id: index + 1,
-      title,
-      icon: explainerData.steps[0]?.icon || "info", // fallback to info
-      category: getCategoryFromTitle(title),
-      // data already has {title, detail, icon, source}
-      steps: explainerData.steps,
-      guidance: explainerData.guidance,
-    })
+  const [searchParams] = useSearchParams();
+  const topicParam = (searchParams.get("topic") || "").toLowerCase();
+
+  const explainers: Explainer[] = useMemo(
+    () =>
+      Object.entries(explainerSteps).map(([title, explainerData], index) => ({
+        id: index + 1,
+        title,
+        slug: slugify(title),
+        icon: explainerData.steps[0]?.icon || "info", // fallback
+        category: getCategoryFromTitle(title),
+        steps: explainerData.steps as unknown as Step[],
+        guidance: explainerData.guidance as unknown as Step[],
+      })),
+    []
   );
 
-  // --- URL filtering: show only the requested explainer ---
-  const [params] = useSearchParams();
-  const topicParam = (params.get("topic") || "").toLowerCase();     // e.g. "stop-and-search" or "when-the-police-stop-you"
-  const categoryParam = (params.get("category") || "").toLowerCase();
+  // If a topic slug is present, pick that explainer only
+  const selectedBySlug = useMemo(
+    () =>
+      topicParam
+        ? explainers.find((e) => e.slug === topicParam) || null
+        : null,
+    [explainers, topicParam]
+  );
 
-  // Resolve the title we should show (works with tag OR slugified title)
-  const targetTitle =
-    TAG_TO_TITLE[topicParam] ||
-    (topicParam
-      ? (explainers.find((e) => slugify(e.title) === topicParam)?.title || "")
-      : "");
-
-  // Apply filters
-  let visibleExplainers = explainers;
-  if (categoryParam) {
-    visibleExplainers = visibleExplainers.filter(
-      (e) => e.category.toLowerCase() === categoryParam
-    );
-  }
-  if (targetTitle) {
-    visibleExplainers = visibleExplainers.filter((e) => e.title === targetTitle);
-  }
-  // --------------------------------------------------------
+  const explainersToShow = selectedBySlug ? [selectedBySlug] : explainers;
 
   const [openPanel, setOpenPanel] = useState(false);
   const [selectedExplainer, setSelectedExplainer] = useState<Explainer | null>(null);
+
+  // Auto-open the panel when we land with a matching ?topic=
+  useEffect(() => {
+    if (selectedBySlug) {
+      setSelectedExplainer(selectedBySlug);
+      setOpenPanel(true);
+    }
+  }, [selectedBySlug]);
 
   const handleOpenPanel = (explainer: Explainer) => {
     setSelectedExplainer(explainer);
@@ -95,6 +100,7 @@ const Explainers = () => {
       <Navbar />
 
       <div className="container mx-auto px-4 py-8">
+        {/* Header with Save icon beside the title */}
         <div className="mb-12">
           <div className="flex items-center justify-between gap-3 sm:gap-4">
             <h1 className="text-3xl md:text-4xl font-bold text-foreground">
@@ -108,7 +114,7 @@ const Explainers = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {visibleExplainers.map((explainer) => (
+          {explainersToShow.map((explainer) => (
             <Card
               key={explainer.id}
               className="p-6 rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-300"
@@ -202,15 +208,5 @@ const Explainers = () => {
     </div>
   );
 };
-
-function getCategoryFromTitle(title: string): string {
-  if (title.toLowerCase().includes("police")) return "Police";
-  if (title.toLowerCase().includes("insurance") || title.toLowerCase().includes("health")) return "Health";
-  if (title.toLowerCase().includes("university") || title.toLowerCase().includes("universities")) return "Education";
-  if (title.toLowerCase().includes("work") || title.toLowerCase().includes("employment")) return "Work";
-  if (title.toLowerCase().includes("housing") || title.toLowerCase().includes("deposit") || title.toLowerCase().includes("rental")) return "Housing";
-  if (title.toLowerCase().includes("register") || title.toLowerCase().includes("permit")) return "Immigration";
-  return "General";
-}
 
 export default Explainers;

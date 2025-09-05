@@ -51,7 +51,7 @@ const Topics = () => {
         "You're searched without a clear reason",
         "You're recording an incident and get questioned",
       ],
-      explainerTag: "stop-and-search",
+      explainerTag: "when-the-police-stop-you",
     },
     {
       id: 2,
@@ -65,13 +65,13 @@ const Topics = () => {
         "You want to make small repairs but aren’t sure",
         "You’re unsure how to terminate your lease",
       ],
-      explainerTag: "rental-rights",
+      explainerTag: "rental-contract-basics",
     },
     {
       id: 3,
       title: "Student Work Rights",
       category: "Work",
-      icon: "work", // if not aliased, switch to "briefcase"
+      icon: "work",
       summary: "Working while studying? Know your legal limits",
       stories: [
         "You exceed 120 full days of work",
@@ -79,7 +79,7 @@ const Topics = () => {
         "You’re offered a HiWi job — does it count?",
         "You’re not paid on time or at all",
       ],
-      explainerTag: "student-work",
+      explainerTag: "student-work-rights",
     },
     {
       id: 4,
@@ -93,7 +93,7 @@ const Topics = () => {
         "You visit the doctor but aren’t sure what’s covered",
         "You’re using EHIC as an EU student",
       ],
-      explainerTag: "health-coverage",
+      explainerTag: "health-insurance-guide",
     },
     {
       id: 5,
@@ -107,7 +107,8 @@ const Topics = () => {
         "You don’t have a landlord confirmation yet",
         "You missed the 14-day deadline",
       ],
-      explainerTag: "register-address",
+      // FIXED: must match explainer key slug exactly
+      explainerTag: "registering-your-address",
     },
     {
       id: 6,
@@ -121,7 +122,8 @@ const Topics = () => {
         "You haven’t received an appointment yet",
         "You need a Fiktionsbescheinigung",
       ],
-      explainerTag: "residence-permit",
+      // FIXED: must match explainer key slug exactly
+      explainerTag: "extending-your-residence-permit",
     },
     {
       id: 7,
@@ -135,7 +137,7 @@ const Topics = () => {
         "You're worried about how it affects your visa",
         "You want to transfer course credits",
       ],
-      explainerTag: "changing-university",
+      explainerTag: "changing-universities-in-germany",
     },
   ];
 
