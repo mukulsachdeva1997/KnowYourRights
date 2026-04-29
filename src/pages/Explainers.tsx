@@ -12,24 +12,32 @@ import Footer from "@/components/Footer";
 import { mailto } from "@/lib/mailto";
 import SaveForLaterButton from "@/components/SaveForLaterButton";
 
-// Step interface
-interface Step {
+interface UIStep {
   title: string;
   detail: string;
   icon?: string;
   source?: string;
 }
 
-// Explainer interface
-interface Explainer {
+interface UIGuidanceStep {
+  title: string;
+  detail: string;
+  icon?: string;
+}
+
+interface UIExplainer {
   id: number;
   title: string;
-  slug: string;          // <= added for URL matching
-  icon?: string;         // lucide key (from iconMap)
+  slug: string;
+  icon?: string;
   category: string;
-  steps: Step[];
-  guidance?: Step[];
+  steps: UIStep[];
+  guidance?: UIGuidanceStep[];
 }
+
+type RawExplainerEntry = (typeof explainerSteps)[string];
+type RawStep = RawExplainerEntry["steps"][number];
+type RawGuidanceStep = NonNullable<RawExplainerEntry["guidance"]>[number];
 
 function slugify(input: string): string {
   return input
@@ -41,56 +49,81 @@ function slugify(input: string): string {
 
 function getCategoryFromTitle(title: string): string {
   const t = title.toLowerCase();
+
   if (t.includes("police")) return "Police";
   if (t.includes("insurance") || t.includes("health")) return "Health";
   if (t.includes("university") || t.includes("universities")) return "Education";
   if (t.includes("work") || t.includes("employment")) return "Work";
   if (t.includes("housing") || t.includes("deposit") || t.includes("rental")) return "Housing";
-  if (t.includes("register") || t.includes("permit") || t.includes("residence")) return "Immigration";
+  if (t.includes("register") || t.includes("permit") || t.includes("residence")) {
+    return "Visa & Immigration";
+  }
+
   return "General";
 }
 
 const Explainers = () => {
   const [searchParams] = useSearchParams();
-  const topicParam = (searchParams.get("topic") || "").toLowerCase();
+  const topicParam = (searchParams.get("topic") || "").toLowerCase().trim();
 
-  const explainers: Explainer[] = useMemo(
-    () =>
-      Object.entries(explainerSteps).map(([title, explainerData], index) => ({
-        id: index + 1,
-        title,
-        slug: slugify(title),
-        icon: explainerData.steps[0]?.icon || "info", // fallback
-        category: getCategoryFromTitle(title),
-        steps: explainerData.steps as unknown as Step[],
-        guidance: explainerData.guidance as unknown as Step[],
+  const explainers: UIExplainer[] = useMemo(() => {
+    return Object.entries(explainerSteps).map(([title, explainerData], index) => ({
+      id: index + 1,
+      title,
+      slug: slugify(title),
+      icon: explainerData.steps[0]?.icon || "info",
+      category: getCategoryFromTitle(title),
+      steps: explainerData.steps.map((step: RawStep): UIStep => ({
+        title: step.title,
+        detail: step.detail,
+        icon: step.icon,
+        source: step.source,
       })),
-    []
-  );
+      guidance: explainerData.guidance?.map(
+        (item: RawGuidanceStep): UIGuidanceStep => ({
+          title: item.title,
+          detail: item.detail,
+          icon: item.icon,
+        })
+      ),
+    }));
+  }, []);
 
-  // If a topic slug is present, pick that explainer only
-  const selectedBySlug = useMemo(
-    () =>
-      topicParam
-        ? explainers.find((e) => e.slug === topicParam) || null
-        : null,
-    [explainers, topicParam]
-  );
+  const selectedByTopic = useMemo(() => {
+    if (!topicParam) return null;
 
-  const explainersToShow = selectedBySlug ? [selectedBySlug] : explainers;
+    const decoded = decodeURIComponent(topicParam);
+
+    const exactSlug = explainers.find((e) => e.slug === topicParam);
+    if (exactSlug) return exactSlug;
+
+    const exactTitle = explainers.find(
+      (e) => e.title.toLowerCase() === decoded.toLowerCase()
+    );
+    if (exactTitle) return exactTitle;
+
+    return (
+      explainers.find(
+        (e) =>
+          e.slug.includes(topicParam) ||
+          e.title.toLowerCase().includes(decoded.toLowerCase())
+      ) || null
+    );
+  }, [explainers, topicParam]);
+
+  const explainersToShow = selectedByTopic ? [selectedByTopic] : explainers;
 
   const [openPanel, setOpenPanel] = useState(false);
-  const [selectedExplainer, setSelectedExplainer] = useState<Explainer | null>(null);
+  const [selectedExplainer, setSelectedExplainer] = useState<UIExplainer | null>(null);
 
-  // Auto-open the panel when we land with a matching ?topic=
   useEffect(() => {
-    if (selectedBySlug) {
-      setSelectedExplainer(selectedBySlug);
+    if (selectedByTopic) {
+      setSelectedExplainer(selectedByTopic);
       setOpenPanel(true);
     }
-  }, [selectedBySlug]);
+  }, [selectedByTopic]);
 
-  const handleOpenPanel = (explainer: Explainer) => {
+  const handleOpenPanel = (explainer: UIExplainer) => {
     setSelectedExplainer(explainer);
     setOpenPanel(true);
   };
@@ -100,7 +133,6 @@ const Explainers = () => {
       <Navbar />
 
       <div className="container mx-auto px-4 py-8">
-        {/* Header with Save icon beside the title */}
         <div className="mb-12">
           <div className="flex items-center justify-between gap-3 sm:gap-4">
             <h1 className="text-3xl md:text-4xl font-bold text-foreground">
@@ -135,7 +167,10 @@ const Explainers = () => {
                     key={index}
                     className="flex items-start space-x-3 p-3 rounded-lg bg-slate-50 hover:bg-slate-100 transition-colors"
                   >
-                    <Icon name={step.icon} className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                    <Icon
+                      name={step.icon}
+                      className="h-5 w-5 mt-0.5 flex-shrink-0"
+                    />
                     <div className="flex-1">
                       <p className="text-sm font-medium text-foreground flex items-center gap-2 flex-wrap">
                         {step.title}
@@ -175,7 +210,7 @@ const Explainers = () => {
             Need a Custom Guide?
           </h2>
           <p className="text-muted-foreground mb-6 max-w-lg mx-auto">
-            Can’t find what you're looking for? Suggest a new explainer topic and we'll create it.
+            Can’t find what you're looking for? Suggest a new explainer topic and we’ll create it.
           </p>
           <Button
             className="rounded-full px-8"

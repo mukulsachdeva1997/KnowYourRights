@@ -67,7 +67,7 @@ const Index = () => {
             <span className="text-blue-100">in Germany</span>
           </h1>
           <p className="text-xl md:text-2xl text-blue-50 mb-8 max-w-2xl mx-auto leading-relaxed">
-            For students and immigrants — no legal jargon, just simple answers.
+            For students and immigrants - no legal jargon, just simple answers.
           </p>
           <div className="mb-8">
             <SearchBar placeholder="Search legal topics, rights, or situations..." />
