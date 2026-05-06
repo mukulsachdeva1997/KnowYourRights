@@ -391,8 +391,8 @@ const DocumentHelper = () => {
           </div>
           <p className="text-lg text-muted-foreground mt-3 max-w-3xl">
             Paste German text from a letter, contract, email, or official notice. The helper detects
-            risky words, likely topic, practical next steps, and can optionally call a free local AI
-            model through Ollama.
+            risky words, likely topic, and practical next steps for everyone. Full AI explanations
+            are optional and run locally with Ollama on your own computer.
           </p>
         </div>
 
@@ -402,6 +402,16 @@ const DocumentHelper = () => {
           <AlertDescription className="text-amber-700">
             AI and keyword analysis can be wrong. Use this to prepare, then check official sources or
             ask a qualified professional for your specific situation.
+          </AlertDescription>
+        </Alert>
+
+        <Alert className="mb-6 rounded-2xl border-blue-200 bg-blue-50">
+          <Brain className="h-4 w-4 text-blue-700" />
+          <AlertTitle className="text-blue-800">What works on the public site?</AlertTitle>
+          <AlertDescription className="text-blue-700">
+            The smart keyword analysis works instantly in your browser. The Run local AI button is
+            for people who install Ollama themselves; this keeps the project free and avoids sending
+            private documents to a paid AI server.
           </AlertDescription>
         </Alert>
 
@@ -455,8 +465,8 @@ const DocumentHelper = () => {
             </div>
 
             <p className="mt-4 text-sm text-muted-foreground">
-              Local AI mode is free and optional. It works when Ollama is running on your computer at
-              localhost:11434 with a model like llama3.2:3b.
+              Smart analysis above works without setup. Run local AI works only when Ollama is
+              running on your own computer at localhost:11434 with a model like llama3.2:3b.
             </p>
           </Card>
 
@@ -521,7 +531,7 @@ const DocumentHelper = () => {
           <p className="text-sm leading-relaxed text-muted-foreground">
             The built-in keyword analysis works without setup. For fuller AI explanations, install
             Ollama and run a free model on your own computer. The document text is sent only to your
-            local Ollama server at localhost:11434.
+            local Ollama server at localhost:11434, not to this website.
           </p>
 
           <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-3">

@@ -57,7 +57,7 @@ function AIChat() {
           {
             role: "assistant",
             content:
-              "This hosted version does not have a live chat backend configured.\n\nUse the Rights Navigator for guided steps, or paste German letters into the AI Document Helper for local analysis.\n\nHelpful routes:\n- /navigator\n- /document-helper\n- /faq\n\nNot legal advice. For urgent or serious matters, contact a qualified professional or local support service.",
+              "This public website does not run a live AI chatbot.\n\nWhy? To keep the site free and private, there is no paid AI server collecting your messages.\n\nWhat you can use instead:\n- Rights Navigator for guided next steps\n- AI Document Helper for instant browser-based document checks\n- Optional local AI if you install Ollama on your own computer\n\nHelpful routes:\n- /navigator\n- /document-helper\n- /faq\n\nNot legal advice. For urgent or serious matters, contact a qualified professional or local support service.",
           },
         ]);
         return;
@@ -103,10 +103,10 @@ function AIChat() {
         </div>
         <div>
           <h3 className="text-base font-semibold">
-            {API_URL ? "Ask AI about your rights" : "Find the right tool for your question"}
+            {API_URL ? "Ask AI about your rights" : "Find the right help path"}
           </h3>
           <p className="text-xs text-muted-foreground">
-            Optional chat backend · Use Navigator and Document Helper without setup
+            No public chatbot · private tools and email fallback available
           </p>
         </div>
         <span className="ml-auto text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 font-medium">
@@ -119,7 +119,7 @@ function AIChat() {
         {messages.length === 0 && (
           <div className="flex flex-col gap-2 pt-2">
             <p className="text-sm text-muted-foreground">
-              Describe your situation. If no chat backend is configured, we will route you to the best built-in tool. For example:
+              This public site does not send your question to a hosted AI server. Try a common situation below, or use the email form if you want to contact us.
             </p>
             <div className="flex flex-wrap gap-2 mt-1">
               {[
