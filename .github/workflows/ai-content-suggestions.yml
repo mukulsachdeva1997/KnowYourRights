@@ -1,0 +1,88 @@
+name: AI Content Suggestions
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  models: read
+
+jobs:
+  suggest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate deterministic audit first
+        run: npm run content:audit
+
+      - name: Ask GitHub Models for human-review drafts
+        id: ai
+        uses: actions/ai-inference@v1
+        with:
+          prompt-file: .github/prompts/content-suggestions.prompt.yml
+          max-tokens: 1800
+          file_input: |
+            audit_report: docs/content-suggestions.md
+            topics: src/data/topics.ts
+            faqs: src/data/faqs.json
+            explainers: src/data/explainerSteps.ts
+
+      - name: Save AI suggestions report
+        run: |
+          mkdir -p docs
+          cp "${{ steps.ai.outputs.response-file }}" docs/ai-content-suggestions.md
+
+      - name: Ensure review labels exist
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = [
+              { name: "content-review", color: "2563eb", description: "Automated content coverage review" },
+              { name: "ai-assisted", color: "8b5cf6", description: "Generated with GitHub Models for human review" },
+              { name: "needs-human-review", color: "f59e0b", description: "Must be reviewed before publishing" },
+            ];
+
+            for (const label of labels) {
+              try {
+                await github.rest.issues.getLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label.name,
+                });
+              } catch (error) {
+                if (error.status !== 404) throw error;
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  ...label,
+                });
+              }
+            }
+
+      - name: Open AI suggestions pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: content/ai-suggestions
+          commit-message: "chore: update AI content suggestions"
+          title: "AI-assisted KnowYourRights content suggestions"
+          body: |
+            GitHub Models generated `docs/ai-content-suggestions.md` from the deterministic content audit.
+
+            This PR is for human review only. Do not publish legal content from this report without checking sources and wording.
+          labels: content-review, ai-assisted, needs-human-review
+          add-paths: |
+            docs/content-suggestions.md
+            docs/ai-content-suggestions.md

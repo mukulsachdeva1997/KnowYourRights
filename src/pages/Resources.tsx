@@ -111,6 +111,17 @@ const Resources = () => {
       website: "https://www.dgbrechtsschutz.de/",
       location: "Major cities",
     },
+    {
+      id: 9,
+      name: "Inkasso-Check",
+      category: "Consumer Rights",
+      type: "Self-Check",
+      icon: "receipt",
+      description: "Free Verbraucherzentrale tool to check debt collection demands and extra fees",
+      contact: "Online self-check",
+      website: "https://www.verbraucherzentrale.de/inkasso-check",
+      location: "Online nationwide",
+    },
   ];
 
   const categories = [

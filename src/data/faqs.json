@@ -63,5 +63,13 @@
     "category": "Work",
     "keywords": ["notice", "resignation", "termination"],
     "source": "https://www.gesetze-im-internet.de/bgb/__622.html"
+  },
+  {
+    "id": 9,
+    "question": "What should I do if I receive an Inkasso or debt collection letter?",
+    "answer": "Do not pay immediately if you do not recognize the claim or the fees look unclear. First check who the original creditor is, what contract or invoice the claim refers to, the deadline, and the extra Inkasso costs. Save the letter, envelope/email date, invoices, cancellation proof, and bank records. You can use the free Verbraucherzentrale Inkasso-Check or contact a consumer advice centre before replying or paying unclear fees.",
+    "category": "Consumer Rights",
+    "keywords": ["Inkasso", "debt collection", "Mahnung", "payment demand", "consumer rights", "invoice"],
+    "source": "https://www.verbraucherzentrale.de/inkasso-check"
   }
 ]

@@ -5,6 +5,8 @@ import {
   LifeBuoy,
   MapPin,
   HelpCircle,
+  ClipboardList,
+  FileSearch,
 } from "lucide-react";
 import ReportIssueButton from "@/components/ReportIssueButton";
 
@@ -50,6 +52,18 @@ export default function Footer() {
                 <Link to="/resources" className="inline-flex items-center gap-2 hover:underline">
                   <LifeBuoy className="h-4 w-4" />
                   Resources
+                </Link>
+              </li>
+              <li>
+                <Link to="/navigator" className="inline-flex items-center gap-2 hover:underline">
+                  <ClipboardList className="h-4 w-4" />
+                  Navigator
+                </Link>
+              </li>
+              <li>
+                <Link to="/document-helper" className="inline-flex items-center gap-2 hover:underline">
+                  <FileSearch className="h-4 w-4" />
+                  AI Helper
                 </Link>
               </li>
               <li>

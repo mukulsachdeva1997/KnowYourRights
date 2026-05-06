@@ -17,7 +17,7 @@ const FAQ = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const categories = ["All", "Housing", "Work", "Police", "Visa", "Health"];
+  const categories = ["All", "Housing", "Work", "Police", "Visa", "Health", "Consumer Rights"];
 
   // support deep-linking: /faq#ask
   useEffect(() => {

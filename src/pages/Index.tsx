@@ -48,6 +48,12 @@ const Index = () => {
       description: "Student rights, university procedures, and academic issues",
       href: "/topics?category=education",
     },
+    {
+      title: "Consumer Rights",
+      icon: "receipt",
+      description: "Debt collection letters, scams, subscriptions, and unfair demands",
+      href: "/topics?category=consumer-rights",
+    },
   ];
 
   const handleScrollToTopics = () => {
@@ -78,6 +84,28 @@ const Index = () => {
             className="bg-accent hover:bg-accent/90 text-accent-foreground rounded-full px-8 py-3 text-lg font-semibold shadow-lg hover:scale-105 transition-all"
           >
             Start Exploring
+          </Button>
+          <Button
+            variant="secondary"
+            size="lg"
+            className="mt-4 sm:mt-0 sm:ml-3 rounded-full px-8 py-3 text-lg font-semibold shadow-lg hover:scale-105 transition-all"
+            asChild
+          >
+            <Link to="/navigator">
+              <Icon name="clipboard" className="h-5 w-5 mr-2" />
+              Try Rights Navigator
+            </Link>
+          </Button>
+          <Button
+            variant="outline"
+            size="lg"
+            className="mt-4 sm:mt-0 sm:ml-3 rounded-full bg-white/10 px-8 py-3 text-lg font-semibold text-white border-white/30 hover:bg-white/20 hover:text-white shadow-lg hover:scale-105 transition-all"
+            asChild
+          >
+            <Link to="/document-helper">
+              <Icon name="document" className="h-5 w-5 mr-2" />
+              AI Document Helper
+            </Link>
           </Button>
         </div>
       </section>
@@ -111,6 +139,20 @@ const Index = () => {
       {/* Quick Access Section */}
       <section className="py-16 px-4 bg-slate-50">
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
+  <Button variant="outline" size="lg" className="rounded-full px-8 py-3" asChild>
+    <Link to="/document-helper">
+      <Icon name="document" className="h-5 w-5 mr-2" />
+      AI Document Helper
+    </Link>
+  </Button>
+
+  <Button variant="outline" size="lg" className="rounded-full px-8 py-3" asChild>
+    <Link to="/navigator">
+      <Icon name="clipboard" className="h-5 w-5 mr-2" />
+      Rights Navigator
+    </Link>
+  </Button>
+
   <Button variant="outline" size="lg" className="rounded-full px-8 py-3" asChild>
     <Link to="/resources?section=emergency">
       <Icon name="phone" className="h-5 w-5 mr-2" />

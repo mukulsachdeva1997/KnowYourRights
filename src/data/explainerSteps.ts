@@ -373,6 +373,58 @@ const explainerSteps: ExplainerSteps = {
       },
     ],
   },
+
+  "Debt Collection Letter": {
+    steps: [
+      {
+        icon: "receipt",
+        title: "Check who is asking for money and why",
+        detail:
+          "An Inkasso letter should connect the demand to an original contract, invoice, or unpaid service. If you do not recognize the debt, do not pay immediately just because the letter sounds threatening.",
+        source: "https://www.verbraucherzentrale.de/inkasso",
+      },
+      {
+        icon: "alert",
+        title: "Do not let threats rush you",
+        detail:
+          "Debt collection letters may mention court, seizure, or extra costs. Verbraucherzentrale warns that threatening language can be intimidating, and you should check whether the claim and costs are valid before paying.",
+        source: "https://www.verbraucherzentrale.de/inkasso",
+      },
+      {
+        icon: "search",
+        title: "Verify the amount and extra fees",
+        detail:
+          "Use the free Verbraucherzentrale Inkasso-Check to review whether you may need to pay and whether the claimed costs are reasonable.",
+        source: "https://www.verbraucherzentrale.de/inkasso-check",
+      },
+      {
+        icon: "banknote",
+        title: "Watch for fake or suspicious payment details",
+        detail:
+          "Be careful with unfamiliar companies, foreign IBANs, pressure to pay immediately, or requests to avoid written contact. Verbraucherzentrale tracks suspicious debt collection patterns and fake letters.",
+        source: "https://www.verbraucherzentrale.de/schwarzliste-inkasso",
+      },
+    ],
+    guidance: [
+      {
+        icon: "folder",
+        title: "Collect the original contract or invoice",
+        detail: "Save the Inkasso letter, original invoice, order confirmation, cancellation proof, emails, and bank records.",
+      },
+      {
+        icon: "mail",
+        title: "Ask for written proof of the claim",
+        detail:
+          "If you do not understand the demand, ask the company to explain the original claim, date, creditor, amount, and fees in writing.",
+      },
+      {
+        icon: "check",
+        title: "Use official consumer support before paying unclear fees",
+        detail:
+          "The Verbraucherzentrale Inkasso-Check and local consumer advice centres can help you understand whether the claim looks valid.",
+      },
+    ],
+  },
 };
 
 export default explainerSteps;

@@ -10,6 +10,8 @@ const Navbar = () => {
   const navItems = [
     { path: "/", label: "Home" },
     { path: "/topics", label: "Topics" },
+    { path: "/navigator", label: "Navigator" },
+    { path: "/document-helper", label: "AI Helper" },
     { path: "/faq", label: "FAQ" },
     { path: "/explainers", label: "Explainers" },
     { path: "/resources", label: "Resources" },
@@ -33,7 +35,7 @@ const Navbar = () => {
 
         {/* Desktop links */}
         <div className="hidden md:flex items-center space-x-6">
-          {navItems.slice(0, 5).map((item) => (
+          {navItems.slice(0, 7).map((item) => (
             <Link
               key={item.path}
               to={item.path}

@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "content:audit": "node scripts/content-audit.mjs",
     "postbuild": "shx cp dist/index.html dist/404.html",
     "deploy": "gh-pages -d dist -b gh-pages"
   },

@@ -20,6 +20,7 @@ const FAQCard = ({ question, answer, category, source }: FAQCardProps) => {
       Police: "bg-red-100 text-red-800",
       Visa: "bg-purple-100 text-purple-800",
       Health: "bg-pink-100 text-pink-800",
+      "Consumer Rights": "bg-amber-100 text-amber-800",
     };
     return colors[category as keyof typeof colors] || "bg-gray-100 text-gray-800";
   };

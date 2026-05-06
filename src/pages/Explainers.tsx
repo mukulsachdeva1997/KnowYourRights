@@ -58,7 +58,7 @@ function getCategoryFromTitle(title: string): string {
   if (t.includes("register") || t.includes("permit") || t.includes("residence")) {
     return "Visa & Immigration";
   }
-
+  if (t.includes("debt") || t.includes("collection") || t.includes("inkasso")) return "Consumer Rights";
   return "General";
 }
 

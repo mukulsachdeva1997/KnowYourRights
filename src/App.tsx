@@ -10,6 +10,8 @@ import Explainers from "./pages/Explainers";
 import Resources from "./pages/Resources";
 import NotFound from "./pages/NotFound";
 import Saved from "./pages/Saved"; 
+import Navigator from "./pages/Navigator";
+import DocumentHelper from "./pages/DocumentHelper";
 import ScrollToTop from "@/components/ScrollToTop";
 
 const queryClient = new QueryClient();
@@ -26,6 +28,8 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/topics" element={<Topics />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/navigator" element={<Navigator />} />
+          <Route path="/document-helper" element={<DocumentHelper />} />
           <Route path="/explainers" element={<Explainers />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/saved" element={<Saved />} />
