@@ -23,10 +23,8 @@ const CATEGORIES = [
   "Other",
 ];
 
-// Your Vercel serverless function URL
-// In production: https://your-vercel-app.vercel.app/api/chat
-// In development: http://localhost:3000/api/chat
-const API_URL = import.meta.env.VITE_CHAT_API_URL ?? "/api/chat";
+// Optional serverless chat endpoint. Static GitHub Pages builds should leave this unset.
+const API_URL = import.meta.env.VITE_CHAT_API_URL ?? "";
 
 // ─── AI Chat Component ────────────────────────────────────────────────────────
 
@@ -53,6 +51,18 @@ function AIChat() {
     setError(null);
 
     try {
+      if (!API_URL) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content:
+              "This hosted version does not have a live chat backend configured.\n\nUse the Rights Navigator for guided steps, or paste German letters into the AI Document Helper for local analysis.\n\nHelpful routes:\n- /navigator\n- /document-helper\n- /faq\n\nNot legal advice. For urgent or serious matters, contact a qualified professional or local support service.",
+          },
+        ]);
+        return;
+      }
+
       const res = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -92,13 +102,15 @@ function AIChat() {
           <Icon name="sparkles" className="h-4 w-4" />
         </div>
         <div>
-          <h3 className="text-base font-semibold">Ask AI about your rights</h3>
+          <h3 className="text-base font-semibold">
+            {API_URL ? "Ask AI about your rights" : "Find the right tool for your question"}
+          </h3>
           <p className="text-xs text-muted-foreground">
-            Powered by Claude · Answers based on German law · Always cites sources
+            Optional chat backend · Use Navigator and Document Helper without setup
           </p>
         </div>
         <span className="ml-auto text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 font-medium">
-          Live
+          {API_URL ? "Live" : "Static"}
         </span>
       </div>
 
@@ -107,7 +119,7 @@ function AIChat() {
         {messages.length === 0 && (
           <div className="flex flex-col gap-2 pt-2">
             <p className="text-sm text-muted-foreground">
-              Describe your situation and get an instant answer with source links. For example:
+              Describe your situation. If no chat backend is configured, we will route you to the best built-in tool. For example:
             </p>
             <div className="flex flex-wrap gap-2 mt-1">
               {[
@@ -209,7 +221,7 @@ function AIChat() {
           </Button>
         </div>
         <p className="text-xs text-muted-foreground mt-2">
-          Not legal advice · Always cite sources · For serious matters, consult a professional
+          Not legal advice · Use source-backed guides · For serious matters, consult a professional
         </p>
       </div>
     </div>

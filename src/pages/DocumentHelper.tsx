@@ -80,7 +80,9 @@ const categoryRules: CategoryRule[] = [
       "ungültig",
       "ablauf",
       "läuft ab",
-      "anmeldung",
+      "bürgeramt",
+      "meldebescheinigung",
+      "wohnungsgeberbestätigung",
     ],
     guide: { label: "Residence permit guide", href: "/explainers?topic=extending-your-residence-permit" },
   },
@@ -143,10 +145,28 @@ function sentencePreview(text: string) {
   return sentence.length > 220 ? `${sentence.slice(0, 220)}...` : sentence;
 }
 
+function isProbablyGeneralNotice(lower: string) {
+  const eventSignals = [
+    "turnier",
+    "veranstaltung",
+    "event",
+    "spieler",
+    "spieler:innen",
+    "teilzunehmen",
+    "campus",
+    "café",
+    "cafe",
+    "fachschaft",
+  ];
+
+  return eventSignals.some((signal) => lower.includes(signal));
+}
+
 function analyzeDocument(text: string) {
   const lower = normalize(text);
 
   const matchedTerms = keywordRules.filter((rule) => lower.includes(rule.term));
+  const looksLikeGeneralNotice = matchedTerms.length === 0 && isProbablyGeneralNotice(lower);
 
   const immigrationSignals = [
     "aufenthaltserlaubnis",
@@ -174,7 +194,11 @@ function analyzeDocument(text: string) {
     })
     .sort((a, b) => b.score - a.score);
 
-  const category = categoryScores[0]?.score > 0 ? categoryScores[0] : null;
+  const category = looksLikeGeneralNotice
+    ? null
+    : categoryScores[0]?.score > 0
+      ? categoryScores[0]
+      : null;
   const hasDeadline = matchedTerms.some((term) => term.term === "frist" || term.term === "widerspruch");
   const hasOfficialDecision = matchedTerms.some((term) => term.term === "bescheid" || term.term === "anhörung");
   const highRiskCount = matchedTerms.filter((term) => term.risk === "high").length;
@@ -187,22 +211,28 @@ function analyzeDocument(text: string) {
         ? "medium"
         : "low";
 
-  const nextSteps = [
-    ...(hasDeadline
-      ? ["Find the exact deadline date and save the envelope, email timestamp, or delivery date."]
-      : ["Check whether the text mentions a deadline, appointment, payment date, or response period."]),
-    "Save the original document and avoid editing the only copy.",
-    "Write down what happened before and after receiving it.",
-    ...(category?.id === "immigration"
-      ? [
-          "Prepare passport, current permit, enrollment proof, financing proof, insurance proof, and any appointment emails.",
-          "If your permit expires soon, ask the immigration office for written confirmation or a Fiktionsbescheinigung.",
-        ]
-      : []),
-    ...(risk === "high"
-      ? ["Contact a qualified advisor, Studierendenwerk, legal clinic, or official support service quickly."]
-      : ["Use the matching guide to understand the topic before replying."]),
-  ];
+  const nextSteps = looksLikeGeneralNotice
+    ? [
+        "This looks more like a general information or event email than a legal/admin notice.",
+        "Check the date, location, registration details, and contact address if you want to participate.",
+        "If you expected a legal document, paste the full message including subject line, sender, deadlines, and attachments.",
+      ]
+    : [
+        ...(hasDeadline
+          ? ["Find the exact deadline date and save the envelope, email timestamp, or delivery date."]
+          : ["Check whether the text mentions a deadline, appointment, payment date, or response period."]),
+        "Save the original document and avoid editing the only copy.",
+        "Write down what happened before and after receiving it.",
+        ...(category?.id === "immigration"
+          ? [
+              "Prepare passport, current permit, enrollment proof, financing proof, insurance proof, and any appointment emails.",
+              "If your permit expires soon, ask the immigration office for written confirmation or a Fiktionsbescheinigung.",
+            ]
+          : []),
+        ...(risk === "high"
+          ? ["Contact a qualified advisor, Studierendenwerk, legal clinic, or official support service quickly."]
+          : ["Use the matching guide to understand the topic before replying."]),
+      ];
 
   const documents = [
     "Original letter/email and envelope or delivery proof",
@@ -216,7 +246,10 @@ function analyzeDocument(text: string) {
     risk,
     matchedTerms,
     hasDeadline,
-    summary: category
+    looksLikeGeneralNotice,
+    summary: looksLikeGeneralNotice
+      ? `This looks like a general event or information email, not a legal/admin notice. ${sentencePreview(text)}`
+      : category
       ? `This looks most related to ${category.label}. ${sentencePreview(text)}`
       : sentencePreview(text),
     nextSteps,
@@ -305,7 +338,7 @@ const DocumentHelper = () => {
 
   const plan = [
     "KnowYourRights AI Document Helper",
-    `Detected area: ${analysis.category?.label || "Unclear"}`,
+    `Detected area: ${analysis.looksLikeGeneralNotice ? "General notice / not legal" : analysis.category?.label || "Unclear"}`,
     `Risk level: ${analysis.risk}`,
     "",
     "Plain summary:",
@@ -443,7 +476,9 @@ const DocumentHelper = () => {
                 <div className="rounded-2xl bg-slate-50 p-4">
                   <p className="text-sm font-medium text-foreground">Likely area</p>
                   <p className="mt-1 text-muted-foreground">
-                    {analysis.category?.label || "Paste more text to detect the topic."}
+                    {analysis.looksLikeGeneralNotice
+                      ? "General notice / not legal"
+                      : analysis.category?.label || "Paste more text to detect the topic."}
                   </p>
                 </div>
 
