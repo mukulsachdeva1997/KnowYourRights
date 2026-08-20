@@ -46,9 +46,10 @@ const ExplainerSlidePanel = ({ open, onClose, explainer }: Props) => {
         {/* Fixed header */}
         <DialogHeader className="mb-2 shrink-0">
           <DialogTitle className="text-2xl">{explainer.title}</DialogTitle>
-          <DialogDescription>
-            <Badge variant="secondary">{explainer.category}</Badge>
+          <DialogDescription className="sr-only">
+            {explainer.category} explainer with legal and practical steps
           </DialogDescription>
+          <Badge variant="secondary" className="w-fit">{explainer.category}</Badge>
         </DialogHeader>
 
         {/* Scrollable content */}
