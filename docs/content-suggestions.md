@@ -1,6 +1,6 @@
 # KnowYourRights Content Suggestions
 
-Generated: 2026-05-06T16:00:25.871Z
+Generated: 2026-10-26T14:54:36.864Z
 
 This report is generated automatically by `npm run content:audit`. It suggests coverage improvements only. Legal content must be human-reviewed before publishing.
 
